@@ -1,29 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System
+using UnityEngine.SceneManagement;
 
 public class ConsoleCommandController : MonoBehaviour
 {
-    string input;
+    [SerializeField] KeyCode _key = KeyCode.A;
+    [SerializeField] string input;
     bool consoleEnable;
     public List<object> commandList;
 
+    ConsoleCommand<int> LOAD_SCENE;
+    ConsoleCommand TEST;
+
     void Start()
     {
+        LOAD_SCENE = new ConsoleCommand<int>("load_scene", "Load scene from build index.", "load_scene <scene-index", (x) =>
+        {
+            Debug.Log($"Scen Load : {x}");
+        });
+        TEST = new ConsoleCommand("test", "Load scene from build index.", "load_scene <scene-index", () =>
+        {
+            Debug.Log($"Test");
+        });
 
+        commandList = new List<object>
+        {
+            LOAD_SCENE,
+            TEST
+        };
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(_key)) consoleEnable = !consoleEnable;
+    }
+
     private void OnGUI()
     {
         if (!consoleEnable) return;
 
         float y = 0f;
+
         Event e = Event.current;
 
         GUI.Box(new Rect(0, y, Screen.width, 30), "");
         GUI.SetNextControlName("input");
 
         input = GUI.TextField(new Rect(10f, y + 5f, Screen.width - 20f, 25f), input);
+
         if (Event.current.isKey && Event.current.keyCode == KeyCode.Return && GUI.GetNameOfFocusedControl() == "input")
         {
             HandleInput();
