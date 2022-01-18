@@ -10,11 +10,11 @@ public class ConsoleCommandBase
     public string Description { get { return _description; } }
     public string Form { get { return _form; } }
 
-    public ConsoleCommandBase(string id, string descriptin, string form)
+    public ConsoleCommandBase(string id, string description, string form)
     {
-        id = _id;
-        descriptin = _description;
-        form = _form;
+        _id = id;
+        _description = description;
+        _form = form;
     }
 }
 

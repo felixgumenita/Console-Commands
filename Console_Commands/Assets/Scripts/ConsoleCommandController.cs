@@ -5,25 +5,37 @@ using UnityEngine.SceneManagement;
 
 public class ConsoleCommandController : MonoBehaviour
 {
-    [SerializeField] KeyCode _key = KeyCode.A;
-    [SerializeField] string input;
-    bool consoleEnable;
-    public List<object> commandList;
 
+    #region Enable Console Toggle Key
+    [SerializeField] KeyCode _key = KeyCode.A;
+    #endregion
+
+    #region Private
+    private string input;
+    private bool consoleEnable;
+    private List<object> commandList;
+    #endregion
+
+    #region Commands
     ConsoleCommand<int> LOAD_SCENE;
     ConsoleCommand TEST;
+    #endregion
 
     void Start()
     {
+        //Commands
+        // ConsoleCommand<type>(int, bool, list ex. leave empty for strings)
+        // (<id for input> , <description for the command>, <form of id (load_scene (int))
         LOAD_SCENE = new ConsoleCommand<int>("load_scene", "Load scene from build index.", "load_scene <scene-index", (x) =>
         {
-            Debug.Log($"Scen Load : {x}");
+            Debug.Log($"Scene Load : {x}");
         });
         TEST = new ConsoleCommand("test", "Load scene from build index.", "load_scene <scene-index", () =>
         {
             Debug.Log($"Test");
         });
 
+        //Command List
         commandList = new List<object>
         {
             LOAD_SCENE,
@@ -33,15 +45,18 @@ public class ConsoleCommandController : MonoBehaviour
 
     private void Update()
     {
+        //Activate Console GUI
         if (Input.GetKeyDown(_key)) consoleEnable = !consoleEnable;
     }
-
     private void OnGUI()
     {
+        //If false GUI is disable
         if (!consoleEnable) return;
 
+        //GUI start height
         float y = 0f;
 
+        
         Event e = Event.current;
 
         GUI.Box(new Rect(0, y, Screen.width, 30), "");
@@ -49,23 +64,26 @@ public class ConsoleCommandController : MonoBehaviour
 
         input = GUI.TextField(new Rect(10f, y + 5f, Screen.width - 20f, 25f), input);
 
+        //Check return key
         if (Event.current.isKey && Event.current.keyCode == KeyCode.Return && GUI.GetNameOfFocusedControl() == "input")
         {
             HandleInput();
             input = "";
         }
     }
-
-    void HandleInput()
+    private void HandleInput()
     {
+        //Splite text for check type of Command
         string[] properties = input.Split(' ');
 
         for (int i = 0; i < commandList.Count; i++)
         {
+            //Get CosoleCommand as Base
             ConsoleCommandBase commandBase = commandList[i] as ConsoleCommandBase;
 
             if (input.Contains(commandBase.ID))
             {
+                //Check Command Type
                 if (commandList[i] as ConsoleCommand != null)
                 {
                     (commandList[i] as ConsoleCommand).Command();
