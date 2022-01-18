@@ -7,7 +7,7 @@ public class ConsoleCommandController : MonoBehaviour
 {
 
     #region Enable Console Toggle Key
-    [SerializeField] KeyCode _key = KeyCode.A;
+    [SerializeField] private KeyCode _key = KeyCode.A;
     #endregion
 
     #region Private
