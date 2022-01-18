@@ -2,7 +2,7 @@ Create Command
 =============  
 + Create ConsoleCommand variable and name it. For example;
     + ConsoleCommand TEST; (for string type)
-    + ConsoleCommand<int> LOAD_SCENE; (for int type)
+    + ConsoleCommand(int) LOAD_SCENE; (for int type)
 + On "Start()" function assign (id, description and type) of command. For example
     + TEST = new ConsoleCommand("test", "Testing the command.", "test", ()=> { Debug.Log("Test"); });
     + LOAD_SCENE<int> = new ConsoleCommand("load_scene", "Testing load scene command.", "load_scene <int>", (x)=> { Debug.Log($"Load Scene: {x}"); });
