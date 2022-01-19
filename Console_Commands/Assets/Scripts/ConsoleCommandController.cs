@@ -19,6 +19,8 @@ public class ConsoleCommandController : MonoBehaviour
     #region Commands
     ConsoleCommand<int> LOAD_SCENE;
     ConsoleCommand TEST;
+    ConsoleCommand<int> SETSCORE;
+    ConsoleCommand<int> SETCLICKPOINT;
     #endregion
 
     void Start()
@@ -34,12 +36,24 @@ public class ConsoleCommandController : MonoBehaviour
         {
             Debug.Log($"Test");
         });
+        SETSCORE = new ConsoleCommand<int>("set_score", "To set current score.", "set_score <int-score>", (x) =>
+        {
+            ClickController click = FindObjectOfType<ClickController>();
+            click.Score = x;
+        });
+        SETCLICKPOINT = new ConsoleCommand<int>("set_clickPoint", "To set clickPoint", "set_clickPoint <int-clickPoint>", (x) =>
+        {
+            ClickController click = FindObjectOfType<ClickController>();
+            click.ClickPoint = x;
+        });
 
         //Command List
         commandList = new List<object>
         {
             LOAD_SCENE,
-            TEST
+            TEST,
+            SETSCORE,
+            SETCLICKPOINT
         };
     }
 
