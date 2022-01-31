@@ -5,7 +5,7 @@ Create Command
     + ConsoleCommand(int) LOAD_SCENE; (for int type)
 + On "Start()" function assign (id, description and type) of command. For example
     + TEST = new ConsoleCommand("test", "Testing the command.", "test", ()=> { Debug.Log("Test"); });
-    + LOAD_SCENE<int> = new ConsoleCommand("load_scene", "Testing load scene command.", "load_scene <int>", (x)=> { Debug.Log($"Load Scene: {x}"); });
+    + LOAD_SCENE(int) = new ConsoleCommand("load_scene", "Testing load scene command.", "load_scene <int>", (x)=> { Debug.Log($"Load Scene: {x}"); });
 + Assing the command to commandList. For example;
     commandList = new List<object>
         {
